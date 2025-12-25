@@ -1,5 +1,18 @@
+type StringOrNumber = string | number;
+type User = {
+  user_id: StringOrNumber
+}
+type Event = {
+  id: StringOrNumber,
+  title: string,
+  date: string,
+  image_url?: string,
+  host_id: StringOrNumber,
+  description?: string,
+  rsvps?: User[],
+}
 
-const events = [
+const events: Event[] = [
     {
         id: "1",
         title: "Thanksgiving Potluck",
@@ -18,12 +31,12 @@ const events = [
 ];
 
 // Should return an event object, or null if not found
-function getEventById(id) {
+function getEventById(id: StringOrNumber): Event | null {
     return events.filter(e => e.id === id)[0];
 }
 
 // Should return an object with dateString & isPast 
-function getEventDate(event) {
+function getEventDate(event: Event) {
     const eventDate = new Date(event.date);
     const dateString = eventDate.toDateString();
     const isPast = eventDate < new Date();
@@ -31,8 +44,8 @@ function getEventDate(event) {
 }
 
 // Should return a string like '5 going' or '0 went'
-const getEventRsvpCount = (event) => {
-    const count = event.rsvps.length;
+const getEventRsvpCount = (event: Event) => {
+    const count = event.rsvps?.length;
     const { isPast } = getEventDate(event);
     const text = isPast ? 'went' : 'going';
     return [count, text].join(' ');
@@ -40,7 +53,7 @@ const getEventRsvpCount = (event) => {
 
 // Should return a string with the event's title, date, and rsvps
 // (if the event exists), or the string 'Event not found' (if not)
-const getEventDetails = (eventId) => {
+const getEventDetails = (eventId: StringOrNumber) => {
     const event = getEventById(eventId);
     if (event) {
         const { dateString } = getEventDate(event);
